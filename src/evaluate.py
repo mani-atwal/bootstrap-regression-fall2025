@@ -1,4 +1,5 @@
 """
 evaluate.py
-Helper functions for confidence intervals, coverage, etc.
+Helper functions to convert bootstrap draws into intervals and metrics.
 """
+import numpy as np

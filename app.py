@@ -3,5 +3,5 @@ Streamlit app starter.
 Run with: streamlit run app/app.py
 """
 import streamlit as st
-
-st.title("Bootstrap Regression Explorer")
+# from src.bootstrap_methods import ...
+# from src.evaluate import ...
