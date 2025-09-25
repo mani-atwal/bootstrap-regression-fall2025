@@ -23,8 +23,9 @@ When these fail, standard errors and confidence intervals may be misleading.
 3. **Clean Codebase** – Reproducible simulations, clear modular functions, and easy-to-run notebooks.
 
 ---
-
 ## Repository Structure
+
+```
 README.md
 requirements.txt
 app.py # Interactive Dash app
@@ -34,6 +35,7 @@ src/
 ├─ bootstrap_methods.py # Bootstrap implementations
 ├─ evaluate.py # Evaluation helpers (summaries, plots, coverage tests)
 data/ # Saved simulation datasets
+```
 
 ---
 
