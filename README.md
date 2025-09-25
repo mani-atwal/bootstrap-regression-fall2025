@@ -5,7 +5,7 @@ It explores **bootstrap methods for linear regression** and demonstrates how res
 
 The project includes:
 - A **blog post** that introduces and explains bootstrap regression.
-- An **interactive Dash app** to build intuition through visualizations.
+- An **interactive app / visualization** to build intuition through visualizations.
 - **Reproducible Python code** for simulations, bootstrapping, and evaluation.
 
 ---
@@ -19,7 +19,7 @@ When these fail, standard errors and confidence intervals may be misleading.
 
 ## Goals
 1. **Blog Post** – A deep dive into bootstrap methods: pairs, residual, wild, and parametric bootstraps.  
-2. **Interactive App** – Visualize bootstrap lines, coefficient distributions, and confidence intervals.  
+2. **Interactive App / Visualization** – Visualize bootstrap lines, coefficient distributions, and confidence intervals.  
 3. **Clean Codebase** – Reproducible simulations, clear modular functions, and easy-to-run notebooks.
 
 ---
