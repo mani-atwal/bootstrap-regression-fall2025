@@ -3,6 +3,7 @@ bootstrap_methods.py
 
 Bootstrap implementations for linear regression.
 """
+
 import numpy as np
 import pandas as pd
 import statsmodels.api as sm
@@ -29,7 +30,9 @@ def fit_ols(X, y):
     return results
 
 
-def bootstrap_parametric_normal(X, y, n_boot: int = 1000, seed: Optional[int] = None) -> pd.DataFrame:
+def bootstrap_parametric_normal(
+    X, y, n_boot: int = 1000, seed: Optional[int] = None
+) -> pd.DataFrame:
     """
     Parametric (Normal) Bootstrap:
     1. Fit model once and estimate residual variance.
@@ -62,7 +65,9 @@ def bootstrap_parametric_normal(X, y, n_boot: int = 1000, seed: Optional[int] = 
     return pd.DataFrame(bootstrap_coefs, columns=coef_names)
 
 
-def bootstrap_pairs(X, y, n_boot: int = 1000, seed: Optional[int] = None) -> pd.DataFrame:
+def bootstrap_pairs(
+    X, y, n_boot: int = 1000, seed: Optional[int] = None
+) -> pd.DataFrame:
     """
     Pairs Bootstrap:
     1. Resample (X, y) pairs with replacement.
@@ -87,7 +92,9 @@ def bootstrap_pairs(X, y, n_boot: int = 1000, seed: Optional[int] = None) -> pd.
     return pd.DataFrame(bootstrap_coefs, columns=coef_names)
 
 
-def bootstrap_residuals(X, y, B: int = 1000, seed: Optional[int] = None) -> pd.DataFrame:
+def bootstrap_residuals(
+    X, y, B: int = 1000, seed: Optional[int] = None
+) -> pd.DataFrame:
     """
     Residual bootstrap:
     - Fit model once.
@@ -95,10 +102,27 @@ def bootstrap_residuals(X, y, B: int = 1000, seed: Optional[int] = None) -> pd.D
     - Form y* = fitted + resampled_resid.
     - Refit and collect coefficients.
     """
-    # TODO
+    rng = np.random.default_rng(seed)
+
+    model = fit_ols(X, y)
+    fitted = model.fittedvalues
+    resid = model.resid
+    coef_names = model.params.index
+
+    boot_coefs = np.zeros((B, len(coef_names)))
+
+    for b in range(B):
+        resampled_resid = rng.choice(resid, size=len(resid), replace=True)
+        y_star = fitted + resampled_resid
+        model_star = fit_ols(X, y_star)
+        boot_coefs[b, :] = model_star.params.values
+
+    return pd.DataFrame(boot_coefs, columns=coef_names)
 
 
-def bootstrap_wild(X, y, B: int = 1000, seed: Optional[int] = None, wild: str = "rademacher") -> pd.DataFrame:
+def bootstrap_wild(
+    X, y, B: int = 1000, seed: Optional[int] = None, wild: str = "rademacher"
+) -> pd.DataFrame:
     """
     Wild bootstrap:
     - Fit model once.
@@ -109,10 +133,33 @@ def bootstrap_wild(X, y, B: int = 1000, seed: Optional[int] = None, wild: str = 
     wild : {"rademacher", "normal"}
         Choice of distribution for the weights.
     """
-    # TODO
+    rng = np.random.default_rng(seed)
+
+    model = fit_ols(X, y)
+    fitted = model.fittedvalues
+    resid = model.resid
+    coef_names = model.params.index
+
+    boot_coefs = np.zeros((B, len(coef_names)))
+
+    for b in range(B):
+        if wild == "rademacher":
+            v = rng.choice([-1, 1], size=len(resid))
+        elif wild == "normal":
+            v = rng.normal(loc=0.0, scale=1.0, size=len(resid))
+        else:
+            raise ValueError("wild must be 'rademacher' or 'normal'")
+
+        y_star = fitted + resid * v
+        model_star = fit_ols(X, y_star)
+        boot_coefs[b, :] = model_star.params.values
+
+    return pd.DataFrame(boot_coefs, columns=coef_names)
 
 
-def bootstrap_summary(boot_coefs: pd.DataFrame, alpha: float = 0.05) -> pd.DataFrame:
+def bootstrap_summary(
+    boot_coefs: pd.DataFrame, alpha: float = 0.05
+) -> pd.DataFrame:
     """
     Summarize bootstrap results with:
     - Mean of coefficients
@@ -122,10 +169,12 @@ def bootstrap_summary(boot_coefs: pd.DataFrame, alpha: float = 0.05) -> pd.DataF
     lower_bound = boot_coefs.quantile(alpha / 2)
     upper_bound = boot_coefs.quantile(1 - alpha / 2)
 
-    summary = pd.DataFrame({
-        "mean": boot_coefs.mean(),
-        "std": boot_coefs.std(ddof=1),
-        f"{100 * alpha/2:.1f}%": lower_bound,
-        f"{100 * (1 - alpha/2):.1f}%": upper_bound
-    })
+    summary = pd.DataFrame(
+        {
+            "mean": boot_coefs.mean(),
+            "std": boot_coefs.std(ddof=1),
+            f"{100 * alpha/2:.1f}%": lower_bound,
+            f"{100 * (1 - alpha/2):.1f}%": upper_bound,
+        }
+    )
     return summary
