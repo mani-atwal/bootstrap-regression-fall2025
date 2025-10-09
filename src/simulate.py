@@ -80,4 +80,6 @@ def plot_data(df: pd.DataFrame, params: Dict | None = None, show_true: bool = Tr
     if show_true and params is not None:
         ax.legend()
     plt.tight_layout()
-    plt.show()
+    #plt.show()
+
+    return fig

@@ -7,6 +7,8 @@ Helper functions for evaluating bootstrap regression experiments.
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use("Agg")
 from typing import Dict, Optional
 
 
@@ -76,7 +78,7 @@ def plot_bootstrap_lines(X, y, draws: pd.DataFrame, n_lines: int = 50, alpha: fl
 
     xs = np.linspace(X.min(), X.max(), 200)
 
-    plt.figure(figsize=(6, 4))
+    fig = plt.figure(figsize=(6, 4))
     plt.scatter(X, y, s=25, alpha=0.7, edgecolor="k", linewidth=0.25)
 
     # Plot sampled bootstrap regression lines
@@ -95,7 +97,9 @@ def plot_bootstrap_lines(X, y, draws: pd.DataFrame, n_lines: int = 50, alpha: fl
     plt.title("Bootstrap regression lines")
     plt.legend()
     plt.tight_layout()
-    plt.show()
+    #plt.show()
+
+    return fig
 
 
 def plot_coef_histogram(draws: pd.DataFrame, coef: str = "x1", alpha: float = 0.05, ols_res: Optional[any] = None):
@@ -110,7 +114,7 @@ def plot_coef_histogram(draws: pd.DataFrame, coef: str = "x1", alpha: float = 0.
     lower, upper = np.quantile(values, [alpha / 2, 1 - alpha / 2])
     mean_val = values.mean()
 
-    plt.figure(figsize=(6, 3.5))
+    fig = plt.figure(figsize=(6, 3.5))
     plt.hist(values, bins=30, density=True, alpha=0.8, edgecolor="k")
 
     # Overlay bootstrap statistics
@@ -133,4 +137,6 @@ def plot_coef_histogram(draws: pd.DataFrame, coef: str = "x1", alpha: float = 0.
     plt.title(f"Bootstrap distribution of {coef}")
     plt.legend()
     plt.tight_layout()
-    plt.show()
+    #plt.show()
+
+    return fig
