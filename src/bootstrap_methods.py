@@ -93,7 +93,7 @@ def bootstrap_pairs(
 
 
 def bootstrap_residuals(
-    X, y, B: int = 1000, seed: Optional[int] = None
+    X, y, n_boot: int = 1000, seed: Optional[int] = None
 ) -> pd.DataFrame:
     """
     Residual bootstrap:
@@ -109,9 +109,9 @@ def bootstrap_residuals(
     resid = model.resid
     coef_names = model.params.index
 
-    boot_coefs = np.zeros((B, len(coef_names)))
+    boot_coefs = np.zeros((n_boot, len(coef_names)))
 
-    for b in range(B):
+    for b in range(n_boot):
         resampled_resid = rng.choice(resid, size=len(resid), replace=True)
         y_star = fitted + resampled_resid
         model_star = fit_ols(X, y_star)
@@ -121,7 +121,7 @@ def bootstrap_residuals(
 
 
 def bootstrap_wild(
-    X, y, B: int = 1000, seed: Optional[int] = None, wild: str = "rademacher"
+    X, y, n_boot: int = 1000, seed: Optional[int] = None, wild: str = "rademacher"
 ) -> pd.DataFrame:
     """
     Wild bootstrap:
@@ -140,9 +140,9 @@ def bootstrap_wild(
     resid = model.resid
     coef_names = model.params.index
 
-    boot_coefs = np.zeros((B, len(coef_names)))
+    boot_coefs = np.zeros((n_boot, len(coef_names)))
 
-    for b in range(B):
+    for b in range(n_boot):
         if wild == "rademacher":
             v = rng.choice([-1, 1], size=len(resid))
         elif wild == "normal":

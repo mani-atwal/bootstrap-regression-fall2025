@@ -67,9 +67,9 @@ def plot_bootstrap_lines(X, y, draws: pd.DataFrame, n_lines: int = 50, alpha: fl
     """
     X = _flatten_to_1d(X)
 
-    if "const" not in draws.columns or len(draws.columns) < 2:
-        raise ValueError(
-            "Expected bootstrap draws with columns ['const', 'x1'].")
+    # if "const" not in draws.columns or len(draws.columns) < 2:
+    #     raise ValueError(
+    #         "Expected bootstrap draws with columns ['const', 'x1'].")
 
     slope_name = draws.columns[1]
 
@@ -79,15 +79,15 @@ def plot_bootstrap_lines(X, y, draws: pd.DataFrame, n_lines: int = 50, alpha: fl
     xs = np.linspace(X.min(), X.max(), 200)
 
     fig = plt.figure(figsize=(6, 4))
-    plt.scatter(X, y, s=25, alpha=0.7, edgecolor="k", linewidth=0.25)
+    plt.scatter(X, y, s=25, alpha=0.4, edgecolor="k", linewidth=0.25)
 
     # Plot sampled bootstrap regression lines
     for _, coefs in sampled_draws.iterrows():
-        intercept, slope = coefs["const"], coefs[slope_name]
+        intercept, slope = coefs[draws.columns[0]], coefs[slope_name]
         plt.plot(xs, intercept + slope * xs, alpha=alpha, linewidth=1)
 
     # Plot mean bootstrap regression line
-    mean_intercept = draws["const"].mean()
+    mean_intercept = draws[draws.columns[0]].mean()
     mean_slope = draws[slope_name].mean()
     plt.plot(xs, mean_intercept + mean_slope * xs,
              linestyle="--", linewidth=2, label="bootstrap mean")
@@ -114,7 +114,7 @@ def plot_coef_histogram(draws: pd.DataFrame, coef: str = "x1", alpha: float = 0.
     lower, upper = np.quantile(values, [alpha / 2, 1 - alpha / 2])
     mean_val = values.mean()
 
-    fig = plt.figure(figsize=(6, 3.5))
+    fig = plt.figure(figsize=(6, 4))
     plt.hist(values, bins=30, density=True, alpha=0.8, edgecolor="k")
 
     # Overlay bootstrap statistics
