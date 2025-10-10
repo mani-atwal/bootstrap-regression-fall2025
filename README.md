@@ -123,6 +123,3 @@ Notes:
 - **Mani Atwal**  
 - **Patrick Crouch**  
 - **Shiman Zhang**
-
----
-```
