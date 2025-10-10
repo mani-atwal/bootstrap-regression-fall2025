@@ -44,6 +44,8 @@ def create_slider(label, id, min_val=-5, max_val=5, step=0.1, value=0):
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
+server = app.server
+
 app.layout = dbc.Container([
 
     html.H1("Bootstrap Dashboard", className='mb-2',
@@ -179,7 +181,6 @@ def run_simulation(n_clicks, model, beta0, beta1, sigma, n, hetero_strength, n_b
 
     random_seed = np.random.default_rng()
 
-    # Simulate data
     df, true_params = generate_linear_data(
         n=n,
         beta0=beta0,

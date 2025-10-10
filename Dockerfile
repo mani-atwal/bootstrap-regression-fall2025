@@ -13,5 +13,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Expose port for Dash (Cloud Run expects $PORT)
 EXPOSE 8080
 
+ENV PORT=8080
+
 # Start the app
 CMD ["gunicorn", "--bind", "0.0.0.0:8080", "app:server"]
