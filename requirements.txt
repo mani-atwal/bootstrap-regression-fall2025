@@ -1,9 +1,22 @@
-dash==2.17.1
-dash-bootstrap-components==1.6.0
-dash-daq==0.5.0
-plotly==5.24.1
-pandas==2.2.3
-numpy==2.1.2
-matplotlib==3.9.2
-statsmodels==0.14.3
-gunicorn==23.0.0
+# Core numerical and data libraries
+numpy>=1.24
+pandas>=2.0
+
+# Statistical modeling
+statsmodels>=0.14
+
+# Plotting and visualization
+matplotlib>=3.7
+plotly>=5.20
+
+# Dashboard and UI
+dash>=2.15
+dash-bootstrap-components>=1.6
+
+# Optional (for Jupyter notebooks, simulations, etc.)
+jupyter>=1.0
+notebook>=7.0
+
+
+dash-daq>=0.5.0
+gunicorn>=23.0.0
