@@ -1,0 +1,18 @@
+# Core numerical and data libraries
+numpy>=1.24
+pandas>=2.0
+
+# Statistical modeling
+statsmodels>=0.14
+
+# Plotting and visualization
+matplotlib>=3.7
+plotly>=5.20
+
+# Dashboard and UI
+dash>=2.15
+dash-bootstrap-components>=1.6
+
+# Optional (for Jupyter notebooks, simulations, etc.)
+jupyter>=1.0
+notebook>=7.0
