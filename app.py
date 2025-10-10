@@ -65,7 +65,7 @@ app.layout = dbc.Container([
                         dcc.RadioItems(
                             id='bootstrap-models',
                             options=[
-                                {'label':'Parametric Normal', 'value':'parametric_normal'},
+                                {'label':'Parametric (Normal)', 'value':'parametric_normal'},
                                 {'label':'Pairs','value':'pairs'},
                                 {'label':'Residuals','value':'residuals'},
                                 {'label':'Wild', 'value':'wild'}
@@ -87,9 +87,9 @@ app.layout = dbc.Container([
                 dbc.Col([create_slider("True Standard Deviation (σ)", 'sigma', 0.1, 5, 0.1, 2)], width = 4)
             ], className="mb-4"),
             dbc.Row([
-                dbc.Col([create_slider("Number of Data Points (n)", 'n-points', 0, 200, 1, 50)], width = 4),
+                dbc.Col([create_slider("Number of Data Points (n)", 'n-points', 5, 200, 1, 50)], width = 4),
                 dbc.Col([create_slider("Heteroskedasticity Stregth", 'hetero-strength', 0, 5, 0.1, 1)], width = 4),
-                dbc.Col([create_slider("Number of Bootstap Models", 'n-boot', 10, 10000, 1, 2000)], width = 4)
+                dbc.Col([create_slider("Number of Bootstrap Models", 'n-boot', 10, 10000, 1, 2000)], width = 4)
             ], className="mb-4"),
             dbc.Row([
                 dbc.Col([
